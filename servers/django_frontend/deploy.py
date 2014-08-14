@@ -1,3 +1,4 @@
+import socket
 import sys
 import requests
 import os
@@ -5,7 +6,7 @@ import time
 import logging
 
 from core.region_connection import EC2Connection
-from config import AMI, SIZE, DEPLOY_PRIVATE_PATH, DEPLOY_PUBLIC_PATH
+from config import AMI, SIZE, DEPLOY_PRIVATE_PATH, DEPLOY_PUBLIC_PATH, HTTP_ACCESS_IP
 from aws.keypair import create_keypair
 from aws.ec2 import create_instance_profile
 
@@ -79,7 +80,10 @@ def create_security_group():
             return SG_NAME
          
     web = conn.create_security_group(SG_NAME, 'Allow ports 80 and 22.')
-    web.authorize('tcp', 80, 80, '0.0.0.0/0')
+    web.authorize('tcp', 80, 80, HTTP_ACCESS_IP+'/0')
+    socket_gethostbyname = socket.gethostbyname(socket.gethostname())
+    web.authorize('tcp', 80, 80, socket_gethostbyname +'/0')
+    print "Creating local security group permission: {}" % socket_gethostbyname
     web.authorize('tcp', 22, 22, '0.0.0.0/0')
     
     return SG_NAME

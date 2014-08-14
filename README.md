@@ -24,8 +24,14 @@ Usage
 Starting the environment
 ------------------------
 
-Make sure you have configured your "root" AWS credentials in `~/.boto` before you run the fabric script.
-
+Pre-Requisites:
+1. Make sure you have configured your "root" AWS credentials in `~/.boto` before you run the fabric script.
+2. Fork the nimbostratus-target repo
+3. Create a new deploy key for the forked repo and configure the paths in config.py
+4. Update the variable VULNWEB_REPO in servers/django_frontend/user_data.py with new repo path
+5. Update variables in config.py
+    NOTE: In config.py depending on your region you will have to update the AMI-ID.  Depending on your AMI-ID
+    you may have to update the 'SIZE' variable.  In most regions you will have to use a t2.micro.
 
 ```bash
 fab deploy
