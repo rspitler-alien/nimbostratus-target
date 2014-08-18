@@ -83,7 +83,7 @@ def create_security_group():
     web.authorize('tcp', 80, 80, HTTP_ACCESS_IP)
     socket_gethostbyname = socket.gethostbyname(socket.gethostname())
     web.authorize('tcp', 80, 80, socket_gethostbyname +'/32')
-    print "Creating local security group permission: {}" % socket_gethostbyname
+    print "Creating local security group permission: {}".format(str(socket_gethostbyname))
     web.authorize('tcp', 22, 22, '0.0.0.0/0')
     
     return SG_NAME
