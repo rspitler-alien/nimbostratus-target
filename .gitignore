@@ -34,9 +34,7 @@ nosetests.xml
 .project
 .pydevproject
 
-github_id_rsa
-github_id_rsa.pub
-
 *~
+user-data.txt
 *.pem
 
