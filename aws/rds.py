@@ -46,17 +46,18 @@ def spawn_rds():
 
         time.sleep(45)
         logging.debug('Waiting...')
-        
-    # Remove if exists, else continue
-    try:
-        conn.delete_dbsecurity_group(SG_NAME)
-    except:
-        pass
-    
-    # Very insecure, everyone can connect to this MySQL instance
-    sg = conn.create_dbsecurity_group(SG_NAME, 'All hosts can connect')
-    sg.authorize(cidr_ip='0.0.0.0/0')
-    db.modify(security_groups=[sg])
+    #Rely on default VPC security groups instead ...
+
+    # # Remove if exists, else continue
+    # try:
+    #     conn.delete_dbsecurity_group(SG_NAME)
+    # except:
+    #     pass
+    #
+    # # Very insecure, everyone can connect to this MySQL instance
+    # sg = conn.create_dbsecurity_group(SG_NAME, 'All hosts can connect')
+    # sg.authorize(cidr_ip='0.0.0.0/0')
+    # db.modify(security_groups=[sg])
     
     logging.info('Successfully started RDS instance.')
     logging.debug(SUCCESS_MESSAGE % (db.endpoint[0], db.endpoint[1],

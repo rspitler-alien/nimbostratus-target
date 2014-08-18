@@ -6,7 +6,7 @@ import time
 import logging
 
 from core.region_connection import EC2Connection
-from config import AMI, SIZE, DEPLOY_PRIVATE_PATH, DEPLOY_PUBLIC_PATH, HTTP_ACCESS_IP
+from config import AMI, SIZE, DEPLOY_PRIVATE_PATH, DEPLOY_PUBLIC_PATH, HTTP_ACCESS_IP, DEFAULT_SEC_GROUP
 from aws.keypair import create_keypair
 from aws.ec2 import create_instance_profile
 
@@ -41,7 +41,7 @@ def deploy_django_frontend():
                                         instance_type=SIZE,
                                         key_name=keypair_name,
                                         user_data=user_data,
-                                        security_groups=[security_group,],
+                                        security_groups=[security_group,DEFAULT_SEC_GROUP],
                                         instance_profile_name=instance_profile)
  
     instance = my_reservation.instances[0]
