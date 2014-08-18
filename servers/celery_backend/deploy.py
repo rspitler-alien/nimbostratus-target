@@ -6,7 +6,7 @@ from fabric.contrib.files import upload_template, put
 
 from core.region_connection import EC2Connection
 from core.wait_ssh_ready import wait_ssh_ready
-from config import AMI, SIZE, DEPLOY_PRIVATE_PATH, DEPLOY_PUBLIC_PATH
+from config import AMI, SIZE, DEPLOY_PRIVATE_PATH, DEPLOY_PUBLIC_PATH, DEFAULT_SEC_GROUP
 from servers.django_frontend.user_data import VULNWEB_REPO, VULNWEB_BRANCH
 from aws.keypair import create_keypair
 from aws.rds import LOW_PRIV_PASSWORD, LOW_PRIV_USER
@@ -49,7 +49,7 @@ def deploy_celery_backend(rds_host, user_key, user_secret):
     my_reservation = conn.run_instances(AMI,
                                         instance_type=SIZE,
                                         key_name=keypair_name,
-                                        security_groups=[security_group,],)
+                                        security_groups=[security_group,DEFAULT_SEC_GROUP],)
  
     instance = my_reservation.instances[0]
     while not instance.update() == 'running':
